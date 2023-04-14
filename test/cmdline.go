@@ -23,15 +23,23 @@ package main
 
 import (
 	"fmt"
-	"gmme-golib/Utils/cmdline"
-	"regexp"
+	"gmme-golib/utils/cmdline"
 )
 
-//var o_cmdline *cmdline.SCMDLine = cmdline.New()
+//var l_cmdLine *cmdline.SCMDLine = cmdline.New()
 
 func main() {
 	fmt.Println("cmdline test - beg:")
+	/*
+		l_cmdline := cmdline.NewCmdLine()
+		l_dbg1 := l_cmdline.Debug()
+		l_cmdline.Debug(true)
+		l_dbg2 := l_cmdline.Debug()
+		l_dbg3 := l_cmdline.Debug(false)
 
+		fmt.Printf("%T", l_cmdline)
+		fmt.Println("dbg1", l_dbg1, "dbg2", l_dbg2, "dbg3", l_dbg3)
+	*/
 	//	xTestRe()
 	xTest01()
 
@@ -60,51 +68,33 @@ func main() {
 // ------------------------------------------------------------------------------
 // -- Test01 - process array of options like they came from the command line
 // ------------------------------------------------------------------------------
+
 func xTest01() {
 	fmt.Println("xTest01 -- beg:")
-	/*
-		l_r := rand.New(rand.NewSource(time.Now().UnixNano()))
-		min := 10
-		max := 20
-		fmt.Println(l_r.Intn(max-min+1) + min)
-		fmt.Println(l_r.Intn(max-min+1) + min)
-		fmt.Println(l_r.Intn(max-min+1) + min)
-	*/
-	/*
-		fmt.Println(rand.Intn(100))
-		fmt.Println(rand.Intn(100))
-		fmt.Println(rand.Intn(100))
-
-		l_chrstr := strings.Repeat("*", 10)
-		fmt.Println("repeat:", l_chrstr)
-	*/
 
 	//---------------------------------------------------------------------------
 	//-- create test args array
-	var l_args []string
+	l_args := []string{
+		"-testsubenv",
+		"upis${USERPROFILE}",
+		"-mailonerr",
+		"-azSecret#{HIDDEN|SECRET}",
+		"ueA8Q~9T_vN.tyF~SIA63HqjMuwq1aCCe4ttCaeM",
+		"-mailonerr",
+		"-mailrctxt",
+		"this is a test",
+		"-mailrcsmtp",
+		"mail78.apmoller.net",
+	}
 
-	l_args = append(l_args, "-testsubenv")
-	l_args = append(l_args, "upis${USERPROFILE}")
-
-	l_args = append(l_args, "-mailonerr")
-
-	l_args = append(l_args, "-azSecret#{HIDDEN|SECRET}")
-	l_args = append(l_args, "ueA8Q~9T_vN.tyF~SIA63HqjMuwq1aCCe4ttCaeM")
-
-	l_args = append(l_args, "-mailonerr")
-
-	l_args = append(l_args, "-mailrctxt")
-	l_args = append(l_args, "this is a test")
-
-	l_args = append(l_args, "-mailrcsmtp")
-	l_args = append(l_args, "mail78.apmoller.net")
+	fmt.Println(l_args)
 
 	//---------------------------------------------------------------------------
 	//-- create cmdline object and process
-	var l_cmdline *cmdline.SCMDLine = cmdline.NewSCMDLine()
-	l_cmdline.SetDebug(true)
+	var l_cmdline = cmdline.NewCmdLine()
+	l_cmdline.Debug(true)
 	l_cmdline.AddArgsArray(l_args)
-	//	l_cmdline.AddArgsArray(os.Args[1:])
+	l_cmdline.Debug(true)
 	l_cmdline.Dump()
 
 	fmt.Println("xTest01 -- end:")
@@ -112,6 +102,7 @@ func xTest01() {
 
 // ------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------
+/*
 func xTestRe() {
 	var l_args0 []string
 	l_args0 = append(l_args0, "-azSecret#{HIDDEN|SECRET}")
@@ -136,3 +127,4 @@ func xTestRe() {
 	//	fmt.Println(find3)
 	fmt.Println("this is a test!")
 }
+*/
