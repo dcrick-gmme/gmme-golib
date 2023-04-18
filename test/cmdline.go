@@ -24,24 +24,29 @@ package main
 import (
 	"fmt"
 	"gmme-golib/utils/cmdline"
+	"regexp"
 )
 
-//var l_cmdLine *cmdline.SCMDLine = cmdline.New()
-
 func main() {
-	fmt.Println("cmdline test - beg:")
-	/*
-		l_cmdline := cmdline.NewCmdLine()
-		l_dbg1 := l_cmdline.Debug()
-		l_cmdline.Debug(true)
-		l_dbg2 := l_cmdline.Debug()
-		l_dbg3 := l_cmdline.Debug(false)
+	l_tests := map[string]bool{
+		"testre": false,
+		"test01": false,
+		"test02": true,
+	}
 
-		fmt.Printf("%T", l_cmdline)
-		fmt.Println("dbg1", l_dbg1, "dbg2", l_dbg2, "dbg3", l_dbg3)
-	*/
-	//	xTestRe()
-	xTest01()
+	fmt.Println("cmdline test - beg:")
+
+	//--------------------------------------------------------------------------
+	//-- create test args array
+	if l_tests["testre"] {
+		xTestRe()
+	}
+	if l_tests["test01"] {
+		xTest01()
+	}
+	if l_tests["test02"] {
+		xTest02()
+	}
 
 	//	_ = xTestVariadic("-opt1", "value1")
 	//	_ = xTestVariadic("-opt2", "value2", "file2")
@@ -65,14 +70,13 @@ func main() {
 9439 5301 0935 5000 0046 99
 9439 5301 0935 5000 0047 43
 */
-// ------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // -- Test01 - process array of options like they came from the command line
-// ------------------------------------------------------------------------------
-
+// -----------------------------------------------------------------------------
 func xTest01() {
 	fmt.Println("xTest01 -- beg:")
 
-	//---------------------------------------------------------------------------
+	//--------------------------------------------------------------------------
 	//-- create test args array
 	l_args := []string{
 		"-testsubenv",
@@ -89,20 +93,34 @@ func xTest01() {
 
 	fmt.Println(l_args)
 
-	//---------------------------------------------------------------------------
+	//--------------------------------------------------------------------------
 	//-- create cmdline object and process
 	var l_cmdline = cmdline.NewCmdLine()
 	l_cmdline.Debug(true)
 	l_cmdline.AddArgsArray(l_args)
-	l_cmdline.Debug(true)
 	l_cmdline.Dump()
 
 	fmt.Println("xTest01 -- end:")
 }
 
-// ------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------
-/*
+// -----------------------------------------------------------------------------
+// -- Test02 - process array of options like they came from the command line
+// -----------------------------------------------------------------------------
+func xTest02() {
+	fmt.Println("xTest02 -- beg:")
+
+	var l_cmdline = cmdline.NewCmdLine()
+	l_cmdline.Debug(true)
+	l_cmdline.AddArgsFile("cmdline-test01.opt")
+	l_cmdline.AddArgsFile(".\\cmdline-test01.opt")
+	l_cmdline.AddArgsFile("~\\cmdline-test01.opt")
+	l_cmdline.Dump()
+
+	fmt.Println("xTest02 -- end:")
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 func xTestRe() {
 	var l_args0 []string
 	l_args0 = append(l_args0, "-azSecret#{HIDDEN|SECRET}")
@@ -127,4 +145,3 @@ func xTestRe() {
 	//	fmt.Println(find3)
 	fmt.Println("this is a test!")
 }
-*/

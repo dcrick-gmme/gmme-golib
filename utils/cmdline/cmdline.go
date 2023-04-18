@@ -160,16 +160,8 @@ func (c *sCmdLine) Dump() {
 			l_out.WriteString(fmt.Sprintf("; Tags = %v", l_opt.m_tags))
 		}
 
-		if l_opt.m_val != l_opt.m_valOrig {
-			l_out.WriteString(fmt.Sprintf("; OrigVal = [%s]", l_opt.m_valOrig))
-		}
-
-		if l_opt.m_optFile != "" {
-			l_out.WriteString(fmt.Sprintf("; OptFile = %s", l_opt.m_optFile))
-		}
-
 		fmt.Println(l_out.String())
 	}
 
-	fmt.Println("SCMDLine: Dump - end")
+	fmt.Println("CMDLine:: Dump - end")
 }

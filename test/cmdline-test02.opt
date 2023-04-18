@@ -1,0 +1,17 @@
+-logpath D:\Maersk\perl\ReportDist\logs
+
+//-rptPath D:\Maersk\perl\ReportDist\data
+-rptPath D:\Maersk\perl\ReportDist\data
+
+-sfxAdt D:\Maersk\perl\ReportDist\Reportdist_ToReports.adt
+-sfxTmp D:\Maersk\perl\ReportDist\temp\
+-sfxTmp3 ~\perl\ReportDist\temp
+-sfxDst D:\Maersk\perl\ReportDist\data
+-sfxOut D:\Maersk\perl\ReportDist\sfx
+
+-zip D:\Maersk\perl\ReportDist\data
+//-zip \\scrbfilusgrf002\corp$\sfa\ReportDist\zips
+
+-reportDistMDB D:\Maersk\Perl\ReportDist\mdb\ReportDist.mdb
+//-reportDistMDB \\scrbfilusgrf002\corp$\sfa\ReportDist.mdb
+-createSfxExe D:\Dev\dotnet\CreateSfx\bin\Release\CreateSfx.exe

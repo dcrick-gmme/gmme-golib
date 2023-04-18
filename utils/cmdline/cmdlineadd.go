@@ -18,7 +18,9 @@
 package cmdline
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -31,13 +33,13 @@ func (c *sCmdLine) AddArgsArray(a_args []string) {
 	//--------------------------------------------------------------------------
 	//-- if debug on dump a_args
 	if c.m_dbgOn {
-		fmt.Println("DBG-Utils::CmdLine::AddArgsArray == args - beg:")
+		fmt.Println("DBG-utils.cmdline.AddArgsArray == args - beg:")
 		fmt.Println("DBG-a_args -- beg:")
 		for l_i, l_arg := range a_args {
 			fmt.Printf("[%d] = %s\n", l_i, l_arg)
 		}
 		fmt.Println("DBG-a_args -- end:")
-		fmt.Println("DBG-Utils::CmdLine::AddArgsArray == args - end:")
+		fmt.Println("DBG-utils.cmdline.AddArgsArray == args - end:")
 	}
 
 	//--------------------------------------------------------------------------
@@ -66,11 +68,59 @@ func (c *sCmdLine) AddArgsArray(a_args []string) {
 			//-- determine opt and tags if any exists, then add item to map
 			var l_opt2, l_tags = xCheckOptForTags(l_opt)
 			c.m_opts[strings.ToUpper(l_opt2)] = newSOptItem(l_opt2, l_val, l_file, l_tags)
+		} else if l_arg[0] == '@' {
+			//------------------------------------------------------------------
+			//-- we have an include file
+			c.AddArgsFile(l_arg[1:])
+
+			fmt.Printf("NEED TO ADD SUPPORT for include file to load = %s\n", l_arg)
 		}
 		l_i++
 	}
 
 	c.m_isInit = true
+}
+
+// -----------------------------------------------------------------------------
+// -- AddArgsFile()
+// -----------------------------------------------------------------------------
+func (c *sCmdLine) AddArgsFile(a_file string) {
+	l_func := "DBG-utils.cmdline.AddArgsFile::"
+
+	//--------------------------------------------------------------------------
+	//-- if debug on dump a_args, and setup defer
+	if c.m_dbgOn {
+		fmt.Println(l_func, a_file, "- beg:")
+
+		defer func() {
+			fmt.Println(l_func, a_file, "- end:")
+		}()
+	}
+
+	//--------------------------------------------------------------------------
+	//-- deterine file to open and try to read contents
+	l_file, l_err := xExpandUser(a_file)
+	if l_err != nil {
+		log.Fatal(l_err)
+	}
+	if c.m_dbgOn {
+		fmt.Println(l_func, "Open file ==", l_file, "...")
+	}
+
+	//--------------------------------------------------------------------------
+	//-- read contents
+	l_optFile, l_err := os.ReadFile(l_file)
+	if errors.Is(l_err, os.ErrNotExist) {
+		log.Fatal(l_err)
+	}
+	if c.m_dbgOn {
+		fmt.Print(string(l_optFile))
+	}
+
+	//	fmt.Println("file =", l_file)
+	//	l_file = os.path.expanduser(a_file)
+	//	if self.m_dbgOn : print("DBG-Utils::CmdLine::opening file => " + l_file)
+
 }
 
 // =============================================================================
@@ -112,6 +162,31 @@ func xCheckOptForTags(a_opt string) (string, []string) {
 	}
 
 	return l_opt, l_tags
+}
+
+// -----------------------------------------------------------------------------
+// -- xExpandUser
+func xExpandUser(a_path string) (string, error) {
+	//--------------------------------------------------------------------------
+	//-- setup tildesep
+	l_sep := string(os.PathSeparator)
+	l_tildesep := "~" + l_sep
+	l_tildesepLen := len(l_tildesep)
+
+	//--------------------------------------------------------------------------
+	//-- get os home directory
+	l_home, l_err := os.UserHomeDir()
+	if l_err != nil {
+		return "", l_err
+	}
+
+	if a_path == "~" {
+		return l_home, nil
+	} else if strings.HasPrefix(a_path, l_tildesep) {
+		return l_home + l_sep + a_path[l_tildesepLen:], nil
+	}
+
+	return a_path, nil
 }
 
 // -----------------------------------------------------------------------------

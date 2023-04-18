@@ -1,0 +1,31 @@
+-mailonerr
+//-mailonerrregex "(60)"
+-mailrctxt "this is a test"
+-mailrcsmtp "mail78.apmoller.net"
+-mailrcto "condcr@maersk.com"
+-mailrcsubj "SCVUpdate Job Failed at: @@APP_FAILEDT@@"
+-mailrcfrom "namismkt"
+
+-xtestconn -logpath 'd:\junk\tlogs'
+#-- comment line 1
+:-- comment line 2
+//-- comment line 3
+//D:\PythonLib\GMMPythonLib\Utils\CmdLineTest\ReportDist_Common.opt
+//@CmdLineTest\ReportDist_Common.opt
+-logpath2 Custperf
+-logfile ReportDist_Custperf
+
+-rptExt dbf
+-rptName custperf
+-rptPath2 Custperf
+-rptType Weekly
+-rptOutput custperf.dbf
+-rptDst data\
+
+-sfxTmp2 Custperf
+-sfxDst2 Custperf\sfx
+-sfxOut2 Custperf.sfx
+
+-zip2 Custperf.zip
+
+-oneoff "customerperformance.xls<weekly\Customer Performance.xls>"
