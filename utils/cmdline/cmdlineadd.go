@@ -165,43 +165,37 @@ func (c *sCmdLine) AddArgsLine(a_line string) {
 			fmt.Println(l_func, a_line, "- end:")
 		}()
 	}
-}
 
-/*
-#---------------------------------------------------------------------------
-#-- addArgsLine
-#---------------------------------------------------------------------------
-def AddArgsLine(self, a_line) :
-	#-----------------------------------------------------------------------
-	#-- dbg stuff
-	if self.m_dbgOn : print("DBG-Utils::CmdLine::addArgsLine == a_line => " + a_line)
+	//--------------------------------------------------------------------------
+	//-- process line
+	var l_array []string
 
-	l_array = [ ]
+	l_splitCh := " "
+	l_line := a_line
+	for len(l_line) > 0 {
+		//----------------------------------------------------------------------
+		//-- split based on current split character
+		l_split := strings.SplitN(l_line, l_splitCh, 2)
+		l_array = append(l_array, l_split[0])
 
-	l_splitCh = ' '
-	l_line = a_line
-	while (len(l_line) > 0) :
-		#-------------------------------------------------------------------
-		#-- split based on current split character
-		l_split = l_line.split(l_splitCh, 1)
-		l_array.append(l_split[0])
-
-		#-------------------------------------------------------------------
-		#-- stirp spaces and determine next split character
-		if len(l_split) == 1 :
-			l_tmp = ''
-		else :
-			l_tmp = l_split[1].rstrip()
-			l_splitCh = ' ';
-			if l_tmp != '' :
-				if l_tmp[0] == '"' or l_tmp[0] == "'" :
-					l_splitCh = l_tmp[0]
+		//----------------------------------------------------------------------
+		//-- stirp spaces and determine next split character
+		l_tmp := ""
+		if len(l_split) == 2 {
+			l_tmp = strings.TrimRight(l_split[1], " ")
+			l_splitCh = " "
+			if l_tmp != "" {
+				if l_tmp[0] == '"' || string(l_tmp[0]) == "'" {
+					l_splitCh = string(l_tmp[0])
 					l_tmp = l_tmp[1:]
-
+				}
+			}
+		}
 		l_line = l_tmp
+	}
 
-	self.AddArgsArray(l_array)
-*/
+	c.AddArgsArray(l_array)
+}
 
 // =============================================================================
 // -- private methods

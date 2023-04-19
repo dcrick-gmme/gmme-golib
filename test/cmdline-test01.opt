@@ -1,3 +1,4 @@
+-mailtst 'this is a test'
    -mailonerr    
 //-mailonerrregex "(60)"
 -mailrctxt "this is a test"
