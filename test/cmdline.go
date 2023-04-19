@@ -28,6 +28,7 @@ import (
 )
 
 func main() {
+
 	l_tests := map[string]bool{
 		"testre": false,
 		"test01": false,
@@ -48,13 +49,13 @@ func main() {
 		xTest02()
 	}
 
-	//	_ = xTestVariadic("-opt1", "value1")
-	//	_ = xTestVariadic("-opt2", "value2", "file2")
-	//	_ = xTestVariadic("-opt3", "value3", "file3", "tags3")
-	//	_ = xTestVariadic("-opt4", &("value4"), "", "tags")
-
 	fmt.Println("cmdline test - end:")
 }
+
+//	_ = xTestVariadic("-opt1", "value1")
+//	_ = xTestVariadic("-opt2", "value2", "file2")
+//	_ = xTestVariadic("-opt3", "value3", "file3", "tags3")
+//	_ = xTestVariadic("-opt4", &("value4"), "", "tags")
 
 //func xTestVariadic(a_opt string, a_val *string, a_args ...string) *string {
 //	fmt.Println("opt = %s", a_opt)
@@ -112,8 +113,8 @@ func xTest02() {
 	var l_cmdline = cmdline.NewCmdLine()
 	l_cmdline.Debug(true)
 	l_cmdline.AddArgsFile("cmdline-test01.opt")
-	l_cmdline.AddArgsFile(".\\cmdline-test01.opt")
-	l_cmdline.AddArgsFile("~\\cmdline-test01.opt")
+	//l_cmdline.AddArgsFile(".\\cmdline-test01.opt")
+	//l_cmdline.AddArgsFile("~\\cmdline-test01.opt")
 	l_cmdline.Dump()
 
 	fmt.Println("xTest02 -- end:")

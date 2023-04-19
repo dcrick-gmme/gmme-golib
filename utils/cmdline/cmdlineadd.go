@@ -117,11 +117,91 @@ func (c *sCmdLine) AddArgsFile(a_file string) {
 		fmt.Print(string(l_optFile))
 	}
 
-	//	fmt.Println("file =", l_file)
-	//	l_file = os.path.expanduser(a_file)
-	//	if self.m_dbgOn : print("DBG-Utils::CmdLine::opening file => " + l_file)
+	//--------------------------------------------------------------------------
+	//-- process each line in the file
+	l_line := strings.Builder{}
 
+	l_pos := 0
+	l_optFileLen := len(l_optFile)
+	for l_pos < l_optFileLen {
+		//----------------------------------------------------------------------
+		//-- reset line
+		l_line.Reset()
+		l_line.Grow(100)
+
+		//----------------------------------------------------------------------
+		//-- pull a single line and see if its a comment line
+		for l_pos < l_optFileLen && l_optFile[l_pos] != '\r' && l_optFile[l_pos] != '\n' {
+			l_line.WriteByte(l_optFile[l_pos])
+			l_pos++
+		}
+		for l_pos < l_optFileLen && (l_optFile[l_pos] == '\r' || l_optFile[l_pos] == '\n') {
+			l_pos++
+		}
+		l_line2 := strings.TrimSpace(l_line.String())
+		if len(l_line2) > 1 && l_line2[0] == '#' {
+			continue
+		}
+		if len(l_line2) > 2 && l_line2[0] == '/' && l_line2[1] == '/' {
+			continue
+		}
+
+		c.AddArgsLine(l_line2)
+	}
 }
+
+// -----------------------------------------------------------------------------
+// -- AddArgsLine()
+// -----------------------------------------------------------------------------
+func (c *sCmdLine) AddArgsLine(a_line string) {
+	l_func := "DBG-utils.cmdline.AddArgsLine::"
+
+	//--------------------------------------------------------------------------
+	//-- if debug on dump a_args, and setup defer
+	if c.m_dbgOn {
+		fmt.Println(l_func, a_line, "- beg:")
+
+		defer func() {
+			fmt.Println(l_func, a_line, "- end:")
+		}()
+	}
+}
+
+/*
+#---------------------------------------------------------------------------
+#-- addArgsLine
+#---------------------------------------------------------------------------
+def AddArgsLine(self, a_line) :
+	#-----------------------------------------------------------------------
+	#-- dbg stuff
+	if self.m_dbgOn : print("DBG-Utils::CmdLine::addArgsLine == a_line => " + a_line)
+
+	l_array = [ ]
+
+	l_splitCh = ' '
+	l_line = a_line
+	while (len(l_line) > 0) :
+		#-------------------------------------------------------------------
+		#-- split based on current split character
+		l_split = l_line.split(l_splitCh, 1)
+		l_array.append(l_split[0])
+
+		#-------------------------------------------------------------------
+		#-- stirp spaces and determine next split character
+		if len(l_split) == 1 :
+			l_tmp = ''
+		else :
+			l_tmp = l_split[1].rstrip()
+			l_splitCh = ' ';
+			if l_tmp != '' :
+				if l_tmp[0] == '"' or l_tmp[0] == "'" :
+					l_splitCh = l_tmp[0]
+					l_tmp = l_tmp[1:]
+
+		l_line = l_tmp
+
+	self.AddArgsArray(l_array)
+*/
 
 // =============================================================================
 // -- private methods

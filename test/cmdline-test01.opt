@@ -1,4 +1,4 @@
--mailonerr
+   -mailonerr    
 //-mailonerrregex "(60)"
 -mailrctxt "this is a test"
 -mailrcsmtp "mail78.apmoller.net"
