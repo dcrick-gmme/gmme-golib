@@ -127,6 +127,7 @@ func xTest02() {
 
 	xTestGetOpt(l_cmdline, "-mailrcsmtp")
 	xTestGetOpt(l_cmdline, "-mailrcsmtpx")
+	xTestGetOptDef(l_cmdline, "-mailrcsmtpx", "defaultvalue")
 
 	fmt.Println("xTest02 -- end:")
 }
@@ -134,8 +135,12 @@ func xTestAddArgsFile(a_cmdline cmdline.CmdLine, a_file string) {
 	a_cmdline.AddArgsFile(a_file)
 }
 func xTestGetOpt(a_cmdline cmdline.CmdLine, a_opt string) {
-	l_val, l_found := a_cmdline.GetOptValue(a_opt)
+	l_val, l_found := a_cmdline.GetOpt(a_opt)
 	fmt.Println("get opt =", a_opt, ", value =", l_val, ", found =", l_found)
+}
+func xTestGetOptDef(a_cmdline cmdline.CmdLine, a_opt string, a_def string) {
+	l_val := a_cmdline.GetOptDef(a_opt, a_def)
+	fmt.Println("get opt def =", a_opt, ", def =", a_def, ", value =", l_val)
 }
 func xTestHasOpt(a_cmdline cmdline.CmdLine, a_opt string) {
 	fmt.Println("has opt =", a_opt, ", found =", a_cmdline.HasOpt(a_opt))

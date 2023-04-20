@@ -18,30 +18,17 @@
 package cmdline
 
 import (
-	"fmt"
 	"strings"
 )
 
 // -----------------------------------------------------------------------------
-// -- GetOptValue()
+// -- GetOpt()
 // -----------------------------------------------------------------------------
-func (c *sCmdLine) GetOptValue(a_opt string) (string, bool) {
+func (c *sCmdLine) GetOpt(a_opt string) (string, bool) {
 	//--------------------------------------------------------------------------
 	//-- make sure object is fully initialized
 	if !c.m_isInit {
 		return "", false
-	}
-
-	l_func := "DBG-utils.cmdline.GetOptValue:: opt ="
-
-	//--------------------------------------------------------------------------
-	//-- if debug on dump a_args, and setup defer
-	if c.m_dbgOn {
-		fmt.Println(l_func, a_opt, "- beg:")
-
-		defer func() {
-			fmt.Println(l_func, a_opt, "- end:")
-		}()
 	}
 
 	//--------------------------------------------------------------------------
@@ -51,12 +38,78 @@ func (c *sCmdLine) GetOptValue(a_opt string) (string, bool) {
 	if l_found {
 		l_val = l_opt.m_val
 	}
-	if c.m_dbgOn {
-		fmt.Println(l_func, a_opt, "- found =", l_found, ", value =", l_val)
-	}
 
 	return l_val, l_found
 }
+
+// -----------------------------------------------------------------------------
+// -- GetOptDef()
+// -----------------------------------------------------------------------------
+func (c *sCmdLine) GetOptDef(a_opt string, a_def string) string {
+	//--------------------------------------------------------------------------
+	//-- make sure object is fully initialized
+	if !c.m_isInit {
+		return a_def
+	}
+
+	//--------------------------------------------------------------------------
+	//-- see if opt exists
+	l_val := a_def
+	l_opt, l_found := c.m_opts[strings.ToUpper(a_opt)]
+	if l_found {
+		l_val = l_opt.m_val
+	}
+
+	return l_val
+}
+
+// -----------------------------------------------------------------------------
+// -- GetPath()
+// -----------------------------------------------------------------------------
+func (c *sCmdLine) GetPath(a_opt string) (string, bool) {
+	return a_opt, false
+}
+func (c *sCmdLine) GetPathDef(a_opt string, a_def string) string {
+	return a_opt
+}
+
+/*
+#---------------------------------------------------------------------------
+#-- getPathOpt
+#---------------------------------------------------------------------------
+def GetPathOpt(self, a_opt, a_defValue = None, a_allowSub = None, a_subValue = None):
+
+	if not self.m_isInit: return None
+
+	#-----------------------------------------------------------------------
+	#-- see if value exists
+	l_str = a_defValue
+	l_val = self.GetOptValue(a_opt)
+	if l_val is not None:
+		#-------------------------------------------------------------------
+		#-- save value and see if substitution is allowed
+		l_str = l_val
+		if a_allowSub is not None:
+			if (a_allowSub == True) and (a_subValue is not None):
+				l_i = l_str.find('%')
+				if l_i > -1:
+					l_str2 = l_str
+					if l_i > 0 : l_str = l_str2[0:l_i-1]
+					l_str = l_str + a_subValue
+					l_str = l_str + l_str2[l_i:]
+
+
+	#-----------------------------------------------------------------------
+	#-- make sure their is '\' on end of string
+	if (l_str is not None) and l_str != '':
+		l_sep = os.path.sep
+#            if not l_str.endswith(l_sep) :
+		if l_str[-1] != l_sep:
+			l_str = l_str + l_sep
+			l_str = os.path.expanduser(l_str)
+
+	return l_str
+*/
 
 // -----------------------------------------------------------------------------
 // -- HasOpt() and IsOpt()
@@ -77,16 +130,3 @@ func (c *sCmdLine) IsOpt(a_opt string) bool {
 
 	return l_found
 }
-
-/*
-#---------------------------------------------------------------------------
-#-- isOpt
-#---------------------------------------------------------------------------
-def IsOpt(self, a_opt):
-
-	if not self.m_isInit: return None
-
-	if a_opt.upper() not in self.m_opts:
-		return False
-	return True
-*/

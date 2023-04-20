@@ -67,7 +67,11 @@ type CmdLine interface {
 	AddArgsFile(a_file string)
 	AddArgsLine(a_line string)
 
-	GetOptValue(a_opt string) (string, bool)
+	GetOpt(a_opt string) (string, bool)
+	GetOptDef(a_opt string, a_def string) string
+
+	GetPath(a_opt string) (string, bool)
+	GetPathDef(a_opt string, a_def string) string
 
 	HasOpt(a_opt string) bool
 	IsOpt(a_opt string) bool
@@ -129,11 +133,11 @@ func (c *sCmdLine) Dump() {
 	//--------------------------------------------------------------------------
 	//-- make sure object is fully initialized
 	if !c.m_isInit {
-		fmt.Println("CMDLine: Dump - nothing exists...")
+		fmt.Println("CMDLine:: Dump - nothing exists...")
 		return
 	}
 
-	fmt.Println("CMDLine: Dump - beg")
+	fmt.Println("CMDLine:: Dump - beg")
 
 	//--------------------------------------------------------------------------
 	//-- create sorted list of keys of options
@@ -153,18 +157,19 @@ func (c *sCmdLine) Dump() {
 
 		l_out := strings.Builder{}
 		l_out.Grow(128)
-	l_val := l_opt.m_val
-		if len(l_opt.m_tags)> 0 && l_opt.TagExists("HIDE") {
+
+		l_val := l_opt.m_val
+		if len(l_opt.m_tags) > 0 && l_opt.TagExists("HIDE") {
 			l_val = strings.Repeat("*", l_rand.Intn(11)+10)
 		}
-		lout.WriteString(fmt.Sprintf("   %s == [%s]", l_key, l_val))
+		l_out.WriteString(fmt.Sprintf("   %s == [%s]", l_key, l_val))
 
-	if len(l_opt.m_tags) > 0 {
-			l_out.WriteString(fmt.Sprntf("; Tags = %v", l_opt.m_tags))
+		if len(l_opt.m_tags) > 0 {
+			l_out.WriteString(fmt.Sprintf("; Tags = %v", l_opt.m_tags))
 		}
 
-	fmt.Println(l_out.String())
+		fmt.Println(l_out.String())
 	}
 
-fmt.Println("CMDLine:: Dump - end")
+	fmt.Println("CMDLine:: Dump - end")
 }

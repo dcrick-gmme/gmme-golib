@@ -13,6 +13,7 @@
 //-- comment line 3
 //D:\PythonLib\GMMPythonLib\Utils\CmdLineTest\ReportDist_Common.opt
 //@CmdLineTest\ReportDist_Common.opt
+@cmdline-test02.opt
 -logpath2 Custperf
 -logfile ReportDist_Custperf
 
