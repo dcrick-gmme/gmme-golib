@@ -40,22 +40,11 @@ const (
 	ISOPT_SETON
 	ISOPT_SETOFF
 )
-
-type soptItem struct {
-	Opt     string
-	Val     string
-	m_val   string
-	OptFile string
-	Tags    []string
-}
-
-type SCMDLine struct {
-	m_dbgOn  bool
-	m_isInit bool
-	m_opts   map[string]*soptItem
-}
 */
 
+// -----------------------------------------------------------------------------
+// -- Structs
+// -----------------------------------------------------------------------------
 type sOptItem struct {
 	m_opt     string
 	m_val     string
@@ -70,10 +59,18 @@ type sCmdLine struct {
 	m_opts   map[string]*sOptItem
 }
 
+// -----------------------------------------------------------------------------
+// -- Interfaces
+// -----------------------------------------------------------------------------
 type CmdLine interface {
+	AddArgsArray(a_args []string)
 	AddArgsFile(a_file string)
+	AddArgsLine(a_line string)
 
 	GetOptValue(a_opt string) (string, bool)
+
+	HasOpt(a_opt string) bool
+	IsOpt(a_opt string) bool
 }
 
 // =============================================================================
@@ -129,6 +126,7 @@ func (o *sOptItem) TagExists(a_tag string) bool {
 // -----------------------------------------------------------------------------
 // -- Dump
 func (c *sCmdLine) Dump() {
+	//--------------------------------------------------------------------------
 	//-- make sure object is fully initialized
 	if !c.m_isInit {
 		fmt.Println("CMDLine: Dump - nothing exists...")
@@ -155,19 +153,18 @@ func (c *sCmdLine) Dump() {
 
 		l_out := strings.Builder{}
 		l_out.Grow(128)
-
-		l_val := l_opt.m_val
-		if len(l_opt.m_tags) > 0 && l_opt.TagExists("HIDE") {
+	l_val := l_opt.m_val
+		if len(l_opt.m_tags)> 0 && l_opt.TagExists("HIDE") {
 			l_val = strings.Repeat("*", l_rand.Intn(11)+10)
 		}
-		l_out.WriteString(fmt.Sprintf("   %s == [%s]", l_key, l_val))
+		lout.WriteString(fmt.Sprintf("   %s == [%s]", l_key, l_val))
 
-		if len(l_opt.m_tags) > 0 {
-			l_out.WriteString(fmt.Sprintf("; Tags = %v", l_opt.m_tags))
+	if len(l_opt.m_tags) > 0 {
+			l_out.WriteString(fmt.Sprntf("; Tags = %v", l_opt.m_tags))
 		}
 
-		fmt.Println(l_out.String())
+	fmt.Println(l_out.String())
 	}
 
-	fmt.Println("CMDLine:: Dump - end")
+fmt.Println("CMDLine:: Dump - end")
 }

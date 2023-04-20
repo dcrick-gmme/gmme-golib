@@ -26,6 +26,12 @@ import (
 // -- GetOptValue()
 // -----------------------------------------------------------------------------
 func (c *sCmdLine) GetOptValue(a_opt string) (string, bool) {
+	//--------------------------------------------------------------------------
+	//-- make sure object is fully initialized
+	if !c.m_isInit {
+		return "", false
+	}
+
 	l_func := "DBG-utils.cmdline.GetOptValue:: opt ="
 
 	//--------------------------------------------------------------------------
@@ -51,3 +57,36 @@ func (c *sCmdLine) GetOptValue(a_opt string) (string, bool) {
 
 	return l_val, l_found
 }
+
+// -----------------------------------------------------------------------------
+// -- HasOpt() and IsOpt()
+// -----------------------------------------------------------------------------
+func (c *sCmdLine) HasOpt(a_opt string) bool {
+	return c.IsOpt(a_opt)
+}
+func (c *sCmdLine) IsOpt(a_opt string) bool {
+	//--------------------------------------------------------------------------
+	//-- make sure object is fully initialized
+	if !c.m_isInit {
+		return false
+	}
+
+	//--------------------------------------------------------------------------
+	//-- see if opt exists
+	_, l_found := c.m_opts[strings.ToUpper(a_opt)]
+
+	return l_found
+}
+
+/*
+#---------------------------------------------------------------------------
+#-- isOpt
+#---------------------------------------------------------------------------
+def IsOpt(self, a_opt):
+
+	if not self.m_isInit: return None
+
+	if a_opt.upper() not in self.m_opts:
+		return False
+	return True
+*/
