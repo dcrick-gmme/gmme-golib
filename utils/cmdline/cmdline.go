@@ -70,6 +70,12 @@ type sCmdLine struct {
 	m_opts   map[string]*sOptItem
 }
 
+type CmdLine interface {
+	AddArgsFile(a_file string)
+
+	GetOptValue(a_opt string) (string, bool)
+}
+
 // =============================================================================
 // == NewXXX - Constructors
 // =============================================================================

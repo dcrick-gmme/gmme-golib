@@ -112,12 +112,24 @@ func xTest02() {
 
 	var l_cmdline = cmdline.NewCmdLine()
 	l_cmdline.Debug(true)
-	l_cmdline.AddArgsFile("cmdline-test01.opt")
+	xTestAddArgsFile(l_cmdline, "cmdline-test01.opt")
+	//l_cmdline.AddArgsFile("cmdline-test01.opt")
 	//l_cmdline.AddArgsFile(".\\cmdline-test01.opt")
 	//l_cmdline.AddArgsFile("~\\cmdline-test01.opt")
 	l_cmdline.Dump()
 
+	l_cmdline.Debug(false)
+	xTestGetOpt(l_cmdline, "-mailrcsmtp")
+	xTestGetOpt(l_cmdline, "-mailrcsmtpx")
+
 	fmt.Println("xTest02 -- end:")
+}
+func xTestAddArgsFile(a_cmdline cmdline.CmdLine, a_file string) {
+	a_cmdline.AddArgsFile(a_file)
+}
+func xTestGetOpt(a_cmdline cmdline.CmdLine, a_opt string) {
+	l_val, l_found := a_cmdline.GetOptValue(a_opt)
+	fmt.Println("opt =", a_opt, ", value =", l_val, ", found =", l_found)
 }
 
 // -----------------------------------------------------------------------------
