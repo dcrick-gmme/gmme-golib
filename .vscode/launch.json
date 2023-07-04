@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "test-cmdline",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "test-gmme-golib/test-cmdline.go",
+            "env":
+            {
+                "xGOPRIVATE": "f:/crick3/dev/gmme/Github/gmme-golib"
+            }            
+        }
+    ]
+}
