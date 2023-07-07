@@ -33,13 +33,16 @@ func (c *sCmdLine) AddArgsArray(a_args []string) {
 	//--------------------------------------------------------------------------
 	//-- if debug on dump a_args
 	if c.m_dbgOn {
-		fmt.Println("DBG-utils.cmdline.AddArgsArray == args - beg:")
+		fmt.Println("DBG-utils.cmdline.AddArgsArray - beg:")
 		fmt.Println("DBG-a_args -- beg:")
 		for l_i, l_arg := range a_args {
 			fmt.Printf("[%d] = %s\n", l_i, l_arg)
 		}
 		fmt.Println("DBG-a_args -- end:")
-		fmt.Println("DBG-utils.cmdline.AddArgsArray == args - end:")
+
+		defer func() {
+			fmt.Println("DBG-utils.cmdline.AddArgsArray - end:")
+		}()
 	}
 
 	//--------------------------------------------------------------------------
