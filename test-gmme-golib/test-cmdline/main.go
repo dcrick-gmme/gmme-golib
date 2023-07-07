@@ -112,7 +112,7 @@ func xTest02() {
 
 	var l_cmdline = cmdline.NewCmdLine()
 	l_cmdline.Debug(true)
-	xTestAddArgsFile(l_cmdline, "cmdline-test01.opt")
+	xTestAddArgsFile(l_cmdline, "../opt/cmdline-test01.opt")
 	//l_cmdline.AddArgsFile("cmdline-test01.opt")
 	//l_cmdline.AddArgsFile(".\\cmdline-test01.opt")
 	//l_cmdline.AddArgsFile("~\\cmdline-test01.opt")

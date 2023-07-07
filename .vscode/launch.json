@@ -5,11 +5,14 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "test-gmme-golib/test-cmdline.go",
-            "env":
-            {
-                "xGOPRIVATE": "f:/crick3/dev/gmme/Github/gmme-golib"
-            }            
+            "program": "test-gmme-golib/test-cmdline/main.go"
+        },
+        {
+            "name": "test-stuff",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "test-gmme-golib/test-stuff/main.go"
         }
     ]
 }

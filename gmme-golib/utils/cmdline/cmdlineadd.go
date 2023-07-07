@@ -85,15 +85,21 @@ func (c *sCmdLine) AddArgsArray(a_args []string) {
 // -- AddArgsFile()
 // -----------------------------------------------------------------------------
 func (c *sCmdLine) AddArgsFile(a_file string) {
-	l_func := "DBG-utils.cmdline.AddArgsFile::"
+	l_func := "DBG-utils.cmdline.AddArgsFile"
 
 	//--------------------------------------------------------------------------
 	//-- if debug on dump a_args, and setup defer
 	if c.m_dbgOn {
-		fmt.Println(l_func, a_file, "- beg:")
+		fmt.Println(l_func + "::a_file => " + a_file + " - beg:")
+
+		l_cwdPath, l_err := os.Getwd()
+		if l_err != nil {
+			log.Fatal(l_err)
+		}
+		fmt.Println(l_func + "::current folder is => " + l_cwdPath)
 
 		defer func() {
-			fmt.Println(l_func, a_file, "- end:")
+			fmt.Println(l_func + "::a_file =>" + a_file + " - end:")
 		}()
 	}
 
