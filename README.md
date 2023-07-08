@@ -6,8 +6,7 @@ GMME Lib migrated to go
 
 > linux
 
-> mac
-
+> macos
 
 ## Tested go versions:
 > 1.20+
