@@ -1,5 +1,13 @@
 # gmme-golib
 GMME Lib migrated to go
 
-## settings that need to be done
-> need to create link from GOROOT gmme-golib to project gmme-golib
+## Supported platforms:
+> windows
+
+> linux
+
+> mac
+
+
+## Tested go versions:
+> 1.20+
